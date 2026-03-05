@@ -2,31 +2,113 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>Card Remote Camera</title>
+<title>Card Remote</title>
+
+<style>
+body{
+font-family:sans-serif;
+text-align:center;
+background:#111;
+color:white;
+}
+
+video{
+width:90%;
+max-width:500px;
+margin:10px;
+border-radius:10px;
+}
+
+button{
+padding:10px 20px;
+font-size:16px;
+margin:10px;
+}
+</style>
+
 </head>
 
-<body style="text-align:center;font-family:sans-serif">
+<body>
 
-<h1>カードリモートカメラ</h1>
+<h1>Card Remote</h1>
 
-<video id="camera" autoplay playsinline width="90%"></video>
+<div>
+<input id="room" placeholder="Room ID">
+<button onclick="joinRoom()">接続</button>
+</div>
+
+<br>
+
+<button onclick="startCamera()">カメラON</button>
 
 <br><br>
 
-<button onclick="startCamera()">カメラ起動</button>
+<h2>自分</h2>
+<video id="localVideo" autoplay playsinline muted></video>
+
+<h2>相手</h2>
+<video id="remoteVideo" autoplay playsinline></video>
+
+<script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
 
 <script>
-async function startCamera(){
-    const stream = await navigator.mediaDevices.getUserMedia({
-        video: { facingMode: "environment" },
-        audio: true
-    });
 
-    document.getElementById("camera").srcObject = stream;
+let peer
+let call
+let localStream
+
+async function startCamera(){
+
+localStream = await navigator.mediaDevices.getUserMedia({
+video:{facingMode:"environment"},
+audio:true
+})
+
+document.getElementById("localVideo").srcObject = localStream
+
 }
+
+function joinRoom(){
+
+const room = document.getElementById("room").value
+
+peer = new Peer(room)
+
+peer.on("call", (incomingCall)=>{
+
+call = incomingCall
+
+call.answer(localStream)
+
+call.on("stream",(remoteStream)=>{
+
+document.getElementById("remoteVideo").srcObject = remoteStream
+
+})
+
+})
+
+peer.on("open", id =>{
+
+console.log("connected as",id)
+
+})
+
+}
+
+function callPeer(id){
+
+call = peer.call(id,localStream)
+
+call.on("stream",(remoteStream)=>{
+
+document.getElementById("remoteVideo").srcObject = remoteStream
+
+})
+
+}
+
 </script>
 
 </body>
 </html>
-
-
