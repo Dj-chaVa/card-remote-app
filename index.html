@@ -1,36 +1,29 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>QRアプリ</title>
-<style>
-body{
-font-family:sans-serif;
-text-align:center;
-margin-top:100px;
-}
-
-button{
-font-size:20px;
-padding:10px 20px;
-}
-</style>
+<meta charset="utf-8">
+<title>Card Remote Camera</title>
 </head>
 
-<body>
+<body style="text-align:center;font-family:sans-serif">
 
-<h1>QRアプリ</h1>
+<h1>カードリモートカメラ</h1>
 
-<button onclick="hello()">押してみて</button>
+<video id="camera" autoplay playsinline width="90%"></video>
 
-<p id="result"></p>
+<br><br>
+
+<button onclick="startCamera()">カメラ起動</button>
 
 <script>
+async function startCamera(){
+    const stream = await navigator.mediaDevices.getUserMedia({
+        video: { facingMode: "environment" },
+        audio: true
+    });
 
-function hello(){
-document.getElementById("result").innerText="成功！アプリ動いた！";
+    document.getElementById("camera").srcObject = stream;
 }
-
 </script>
 
 </body>
