@@ -38,16 +38,16 @@ margin:20px;
 
 <h1>Card Remote</h1>
 
-<button onclick="startCamera()">カメラ端末</button>
-
-<button onclick="viewerMode()">視聴端末</button>
+<button onclick="createRoom()">ルーム作成</button>
+<button onclick="joinRoom()">QR参加</button>
+<button onclick="viewerMode()">iPad視聴</button>
 
 <div id="qrcode"></div>
 
-<h2>自分</h2>
+<h2>自分の盤面</h2>
 <video id="localVideo" autoplay muted playsinline></video>
 
-<h2>相手</h2>
+<h2>相手の盤面</h2>
 <video id="remoteVideo" autoplay playsinline></video>
 
 <script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
@@ -56,18 +56,28 @@ margin:20px;
 <script>
 
 let peer
-let call
 let localStream
 
-function randomRoom(){
-
+function randomID(){
 return Math.random().toString(36).substring(2,8)
-
 }
 
 async function startCamera(){
 
-const room = randomRoom()
+localStream = await navigator.mediaDevices.getUserMedia({
+video:{facingMode:"environment"},
+audio:true
+})
+
+document.getElementById("localVideo").srcObject = localStream
+
+}
+
+async function createRoom(){
+
+await startCamera()
+
+const room = randomID()
 
 const url = location.href + "?room=" + room
 
@@ -75,26 +85,38 @@ document.getElementById("qrcode").innerHTML=""
 
 new QRCode(document.getElementById("qrcode"),url)
 
-localStream = await navigator.mediaDevices.getUserMedia({
-
-video:{facingMode:"environment"},
-audio:true
-
-})
-
-document.getElementById("localVideo").srcObject = localStream
-
 peer = new Peer(room)
 
-peer.on("call",(incomingCall)=>{
-
-call=incomingCall
+peer.on("call",call=>{
 
 call.answer(localStream)
 
-call.on("stream",(remoteStream)=>{
+call.on("stream",remoteStream=>{
 
-document.getElementById("remoteVideo").srcObject=remoteStream
+document.getElementById("remoteVideo").srcObject = remoteStream
+
+})
+
+})
+
+}
+
+async function joinRoom(){
+
+await startCamera()
+
+const params = new URLSearchParams(location.search)
+const room = params.get("room")
+
+peer = new Peer()
+
+peer.on("open",id=>{
+
+const call = peer.call(room,localStream)
+
+call.on("stream",remoteStream=>{
+
+document.getElementById("remoteVideo").srcObject = remoteStream
 
 })
 
@@ -105,36 +127,25 @@ document.getElementById("remoteVideo").srcObject=remoteStream
 function viewerMode(){
 
 const params = new URLSearchParams(location.search)
-
 const room = params.get("room")
-
-if(!room){
-
-alert("QRコードから接続してください")
-
-return
-
-}
 
 peer = new Peer()
 
 peer.on("open",id=>{
 
-call = peer.call(room,new MediaStream())
+peer.call(room,new MediaStream())
 
 })
 
-peer.on("call",(incomingCall)=>{
-
-call=incomingCall
+peer.on("call",call=>{
 
 call.answer()
 
+call.on("stream",remoteStream=>{
+
+document.getElementById("remoteVideo").srcObject = remoteStream
+
 })
-
-peer.on("stream",(remoteStream)=>{
-
-document.getElementById("remoteVideo").srcObject=remoteStream
 
 })
 
