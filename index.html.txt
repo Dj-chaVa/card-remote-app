@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>QRアプリ</title>
+<style>
+body{
+font-family:sans-serif;
+text-align:center;
+margin-top:100px;
+}
+
+button{
+font-size:20px;
+padding:10px 20px;
+}
+</style>
+</head>
+
+<body>
+
+<h1>QRアプリ</h1>
+
+<button onclick="hello()">押してみて</button>
+
+<p id="result"></p>
+
+<script>
+
+function hello(){
+document.getElementById("result").innerText="成功！アプリ動いた！";
+}
+
+</script>
+
+</body>
+</html>
