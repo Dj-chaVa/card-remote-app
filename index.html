@@ -20,14 +20,27 @@
 
   <script>
    function saveMemo(){
+    
     const text = document.getElementById("memo").value;
+    
     localStorage.setItem("memo", text);
+    
    }
+
+   window.onload =function(){
+
+     consttext = localStorage.getItem("memo");
+
+    document.getElementById("memo").value = text;
+
+   }
+   
    
   </script>
 </body>
 
 </html>
+
 
 
 
