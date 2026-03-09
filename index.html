@@ -13,14 +13,22 @@
  
 <h1>メモアプリ</h1>
  
- <textarea></textarea>
+ <textareaid="memo" ></textarea>
  <br>
  
- <botton>保存!!!!!</botton>
- 
+ <botton onclick="saveMemo()">保存!!!!!</botton>
+
+  <script>
+   function saveMemo(){
+    const text=document.getElementById("memo").value;
+    localStorage.setItem("memo",text);
+   }
+   
+  </script>
 </body>
 
 </html>
+
 
 
 
