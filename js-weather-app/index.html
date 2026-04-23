@@ -1,0 +1,42 @@
+
+
+<!DOCTYPE html><!--htmlで書くよ-->
+
+<html lang="ja"><!--日本語だよ-->
+
+    <head><!--ページの設定とか-->
+
+        <meta charset="utf-8"/><!--文字コードがちゃんと表示されるように文字コードをutf-8にする-->
+         <meta name="viewport"content="width=device-width, initial-scale=1"/><!--スマホとかでもサイズを合わせるように表示-->
+                    <link rel="stylesheet" href="./style.css"/><!--style.cssっていうリンクから見た目のデザインを適用しているよ-->
+
+         <title>JSウェザーアプリ</title><!--ブラウザのタブに表示されるタイトル-->
+    </head>
+
+    <body><!--ユーザーに見える部分がこれだ！-->
+        <div class="wrapper"><!--cssでデザインをととのえるた目のやつ１-->
+            <div class="container"><!--cssでデザインをととのえるた目のやつ２-->
+             <h1>JS World Weather</h1><!--ページの見出し-->
+             <form id="weather-form"><!--ユーザーが入力する部分-->
+                <input id="city-input"type="text"placeholder="都市名を英語で入力"/><!--都市名を入力するテキストボックス-->
+                <button type="submit">Get Weather</button>
+             </form>
+                <div id="weather-results">
+                    <div class="results-country"></div>
+                    <div class="results-city"></div>
+                    <div class="results-temp"><span></span></div>
+                    <div class="results-condition">
+                      
+                      <span></span>
+                    </div>
+                </div>
+            </div>
+            <script src="./main.js"></script>
+        </div>
+    </body>
+
+</html>   
+
+        
+                    
+    
