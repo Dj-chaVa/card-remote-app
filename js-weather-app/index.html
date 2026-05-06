@@ -1,37 +1,36 @@
 
 
-<!DOCTYPE html><!--htmlで書くよ-->
+<!DOCTYPE html><!--html５っていうルールにするよっている宣言--><!--DOCTYPEはどのルールを使うかの宣言-->
 
-<html lang="ja"><!--日本語だよ-->
+<html lang="ja"><!--日本語だよ--><!--html lang=でこのページでの言語を認識する-->
 
-    <head><!--ページの設定とか-->
+    <head><!--ページの設定とか--><!--<head>は見えない裏側を決めるやつ<body>が見える部分を書くやつ-->
 
-        <meta charset="utf-8"/><!--文字コードがちゃんと表示されるように文字コードをutf-8にする-->
-         <meta name="viewport"content="width=device-width, initial-scale=1"/><!--スマホとかでもサイズを合わせるように表示-->
-                    <link rel="stylesheet" href="./style.css"/><!--style.cssっていうリンクから見た目のデザインを適用しているよ-->
+        <meta charset="utf-8"/><!--文字コードがちゃんと表示されるように文字コードをutf-8にする（文字化けを防止する）--><!--meta charset=(文字の「エンコード方式」という表し方を指定するやつ)-->
+         <meta name="viewport"content="width=device-width, initial-scale=1"/><!--スマホとかでもサイズを合わせるように表示--><!--name="viewport"は画面サイズに関する設定で、設定の中身を決めるやつcontent=で、「"width=device-widthは画面の横幅をデバイスの横幅に合わせる」「initial-scale=1は最初の表示倍率を１倍(100%)にする」を設定した-->
+                    <link rel="stylesheet" href="./style.css"/><!--style.cssっていうリンクから見た目のデザインを適用しているよ--><!--「linkタグは外部ファイルをHTMLに読み込むタグ」「rel="stylesheet"は読み込むファイルがstylesheetのための物だということ」「href=./ファイル名で今いるフォルダからファイルにつなげている」-->
 
          <title>JSウェザーアプリ</title><!--ブラウザのタブに表示されるタイトル-->
     </head>
 
     <body><!--ユーザーに見える部分がこれだ！-->
-        <div class="wrapper"><!--cssでデザインをととのえるた目のやつ１-->
-            <div class="container"><!--cssでデザインをととのえるた目のやつ２-->
-             <h1>JS World Weather</h1><!--ページの見出し-->
-             <form id="weather-form"><!--ユーザーが入力する部分-->
-                <input id="city-input"type="text"placeholder="都市名を英語で入力"/><!--都市名を入力するテキストボックス-->
-                <button type="submit">Get Weather</button>
-             </form>
-                <div id="weather-results">
-                    <div class="results-country"></div>
-                    <div class="results-city"></div>
-                    <div class="results-temp"><span></span></div>
-                    <div class="results-condition">
-                      
-                      <span></span>
+        <div class="wrapper"><!--cssでデザインをととのえるた目のやつ１--><!--div→意味の入っていない箱、class→CSSと連携できるラベルを付ける今回は"wrapper"ってラベルでstyle.cssの19行目にある-->
+            <div class="container"><!--cssでデザインをととのえるた目のやつ２--><!--"container"というラベルでstyle.cssの29行目-->
+             <h1>JS World Weather</h1><!--h1→ページの見出し-->
+             <form id="weather-form"><!--form→ユーザーが入力する部分--><!--id→要素を特定するためのページ内で一つだけの名づけ、今回名前は"weather-form"でmain.jsの１行目-->
+                <input id="city-input"type="text"placeholder="都市名を英語で入力"/><!--都市名を入力するテキストボックス--><!--input→ブラウザで目に見える箱って感じ、名前は"weather-form"、type="text"ではtype属性で、今回は"text"という値、placeholder="都市名を英語で入力"はplaceholder→inputで作った箱にヒントを表示するやつで、テキストの内容ではないから入力したら見えなくなる-->
+                <button type="submit">Get Weather</button><!--フォームを送信するためのボタン--><!--submit→type属性の値で、→formの送信機能を使えるようにする-->
+             </form><!--20~23行で都市名を検索するためのテキストボックス文字を入力できるようにするそしてヒントを書きておくことと、その文字を送信するためのボタンを作った-->
+                <div id="weather-results"><!--で取得した天気情報を表示するための領域--><!--id→要素を特定するための名づけ今回名前は"weather-results"でmain.jsの3行目-->
+                    <div class="results-country"></div><!--JavaScriptで書き換えられる国名--><!--main.jsの19行目-->
+                    <div class="results-city"></div><!--JavaScriptで書き換えられる都市名--><!--main.jsの20行目-->
+                    <div class="results-temp"><span></span></div><!--JavaScriptで書き換えられる気温--><!--main.jsの21行目-->
+                    <div class="results-condition"><!--JavaScriptで書き換えられる天気--><!--main.jsの22行目-->
+                      <span></span><!--spanは文章の一部として表示される、この場合はmain.js24行目のAPIのデータを読み込むやつ-->
                     </div>
                 </div>
             </div>
-            <script src="./main.js"></script>
+            <script src="./main.js"></script><!--JavaScriptファイルを読み込んで天気取得などの実行-->
         </div>
     </body>
 
